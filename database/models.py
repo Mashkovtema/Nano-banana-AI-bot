@@ -33,6 +33,8 @@ class Payments(Base):
     user_id: Mapped[int] = mapped_column(BigInteger, default=0)
     label: Mapped[str] = mapped_column(String, default='---')
     summ: Mapped[int] = mapped_column(Integer, default=0)
+    top_up_balance: Mapped[int] = mapped_column(Integer, default=0)
+    currency: Mapped[str] = mapped_column(String, default='---')
     status: Mapped[str] = mapped_column(String, default='Не оплачено')
 
 

@@ -142,17 +142,35 @@ async def pagination_buttons(page: int, data: list):
 
 async def money_buttons():
     markup = types.InlineKeyboardMarkup(inline_keyboard=[])
-    btn100 = types.InlineKeyboardButton(text='100р', callback_data='select-money_100')
-    btn200 = types.InlineKeyboardButton(text='200р', callback_data='select-money_200')
-    btn500 = types.InlineKeyboardButton(text='500р', callback_data='select-money_500')
-    btn1000 = types.InlineKeyboardButton(text='1000р', callback_data='select-money_1000')
-    btn2000 = types.InlineKeyboardButton(text='2000р', callback_data='select-money_2000')
-    btn5000 = types.InlineKeyboardButton(text='5000р', callback_data='select-money_5000')
+    btn100 = types.InlineKeyboardButton(text='100 💎', callback_data='select-money_100')
+    btn200 = types.InlineKeyboardButton(text='300 💎', callback_data='select-money_300')
+    btn500 = types.InlineKeyboardButton(text='500 💎', callback_data='select-money_500')
+    btn1000 = types.InlineKeyboardButton(text='1000 💎', callback_data='select-money_1000')
+    btn2000 = types.InlineKeyboardButton(text='2000 💎', callback_data='select-money_2000')
+    btn5000 = types.InlineKeyboardButton(text='5000 💎', callback_data='select-money_5000')
     btn_another = types.InlineKeyboardButton(text='Другая сумма/another summ', callback_data='select-money_another')
     markup.inline_keyboard.append([btn100, btn200])
     markup.inline_keyboard.append([btn500, btn1000])
     markup.inline_keyboard.append([btn2000, btn5000])
     markup.inline_keyboard.append([btn_another])
+    return markup
+
+
+async def select_currency(amount: int):
+    markup = types.InlineKeyboardMarkup(inline_keyboard=[])
+    btn_rub = types.InlineKeyboardButton(text='Рубль/Rub', callback_data='select-currency_RUB')
+    btn_usd = types.InlineKeyboardButton(text='Доллар/Usd', callback_data='select-currency_USD')
+    btn_eur = types.InlineKeyboardButton(text='Евро/Eur', callback_data='select-currency_EUR')
+    btn_back = types.InlineKeyboardButton(text='Назад/back', callback_data='back-to-select-summ', style='danger')
+
+    markup.inline_keyboard.append([btn_rub])
+
+    if amount > 300:
+        markup.inline_keyboard.append([btn_usd])
+        markup.inline_keyboard.append([btn_eur])
+
+    markup.inline_keyboard.append([btn_back])
+
     return markup
 
 

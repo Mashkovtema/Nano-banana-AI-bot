@@ -69,14 +69,13 @@ async def process_payment(label: str):
     """Проверка платежа"""
     logging.info('process_payment')
     async with async_session() as session:
-        user_id = int(label.split('-')[0])
-        index = int(label.split('-')[1])
+        payment = await session.scalar(select(Payments).where(Payments.label == label))
+        user_id = payment.user_id
 
-        payment = await session.scalar(select(Payments).where(Payments.id == index))
         user_data = await session.scalar(select(Users).where(Users.user_id == user_id))
 
         if payment.status != 'Оплачено':
-            payment_summ = payment.summ
+            payment_summ = payment.top_up_balance
             user_data.balance += payment_summ
             payment.status = 'Оплачено'
 

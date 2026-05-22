@@ -90,8 +90,8 @@ async def get_prompt(message: types.Message, state: FSMContext):
         text = (f'Подтвердите генерацию/Confirm generation\n\n'
                 f'📝 Промпт/Prompt: {prompt}\n\n'
                 f'🎨 Модель/Model: {state_data["model"]}\n'
-                f'💵 Стоимость генерации/cost: {cost} руб.\n'
-                f'💰 Баланс/balance: {state_data["balance"]}\n\n'
+                f'💵 Стоимость генерации/cost: {cost} 💎\n'
+                f'💰 Баланс/balance: {state_data["balance"]} 💎\n\n'
                 f'⚙️ Настройте параметры и нажмите кнопку "Генерировать"\n'
                 f'⚙️ Configure the settings and click the "Generate" button.')
 
@@ -125,8 +125,8 @@ async def get_photo(message: types.Message, state: FSMContext, bot: Bot):
         text = (f'Подтвердите генерацию/Confirm generation\n\n'
                 f'📝 Промпт/Prompt: {state_data["prompt"]}\n\n'
                 f'🎨 Модель/Model: {state_data["model"]}\n'
-                f'💵 Стоимость генерации/cost: {cost} руб.\n'
-                f'💰 Баланс/balance: {state_data["balance"]}\n\n'
+                f'💵 Стоимость генерации/cost: {cost} 💎\n'
+                f'💰 Баланс/balance: {state_data["balance"]} 💎\n\n'
                 f'⚙️ Настройте параметры и нажмите кнопку "Генерировать"\n'
                 f'⚙️ Configure the settings and click the "Generate" button.')
 
@@ -160,8 +160,8 @@ async def select_settings_for_generate(callback: types.CallbackQuery, state: FSM
     text = (f'Подтвердите генерацию/Confirm generation\n\n'
             f'📝 Промпт/Prompt: {state_data["prompt"]}\n\n'
             f'🎨 Модель/Model: {state_data["model"]}\n'
-            f'💵 Стоимость генерации/cost: {cost} руб.\n'
-            f'💰 Баланс/balance: {state_data["balance"]}\n\n'
+            f'💵 Стоимость генерации/cost: {cost} 💎\n'
+            f'💰 Баланс/balance: {state_data["balance"]} 💎\n\n'
             f'⚙️ Настройте параметры и нажмите кнопку "Генерировать"\n'
             f'⚙️ Configure the settings and click the "Generate" button.')
 

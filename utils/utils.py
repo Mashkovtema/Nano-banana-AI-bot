@@ -1,7 +1,9 @@
 from config_data.config_data import Config, load_config
 
-from datetime import datetime
+from xml.etree import ElementTree
+from datetime import datetime, timedelta
 from pathlib import Path
+import requests
 import logging
 import asyncio
 import openai
@@ -568,5 +570,54 @@ async def generate_video(agent: str, format: str, prompt: str, user_id: int, dur
         logging.error(traceback.format_exc())
         return "", f"❌ Ошибка: {str(e)}"
 
+
+async def convert_function(rub_summ: int, currency: str):
+    """Конвертация рублей в другую валюту"""
+    logging.info('convert_function')
+    if currency != "RUB":
+        url = "https://www.cbr.ru/scripts/XML_daily.asp"
+        response = requests.get(url)
+
+        # Парсим XML-ответ
+        root = ElementTree.fromstring(response.content)
+        for valute in root.findall('Valute'):
+            if valute.find('CharCode').text == currency:
+                # Курс записан как 70,9509 (с запятой)
+                rate_str = valute.find('Value').text.replace(',', '.')
+                usd_rate = float(rate_str)
+
+                dollars = rub_summ / usd_rate
+                return round(dollars, 1)
+    else:
+        return rub_summ
+
+
+async def create_invoice(cost: int, currency: str, index: str):
+    """Создание платежной ссылки"""
+    logging.info('create_invoice')
+    url = 'https://gate.lava.top/api/v3/invoice'
+
+    headers = {
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+        "X-Api-Key": config.tg_bot.money_token
+    }
+
+    json = {
+        "email": 'client@gmail.com',
+        "offerId": "e6d516a8-c09e-4283-bc4c-3bcc473536b7",
+        "currency": currency,
+        "amount": cost
+    }
+
+    data = requests.post(headers=headers, json=json, url=url)
+    data = data.json()
+
+    logging.info(data)
+
+    url = data['paymentUrl']
+    payment_id = data['id']
+
+    return url, payment_id
 
 
